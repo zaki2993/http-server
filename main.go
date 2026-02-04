@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"log"
 	"os"
@@ -10,13 +11,11 @@ func main(){
 	if err != nil{
 		log.Fatal(err)
 	}
-	defer file.Close()
-	for{
-		buff := make([]byte,8)
-		n,err := file.Read(buff)
-		if err != nil{
-			break
-		}
-		fmt.Printf("read: %s\n",string(buff[:n]))
+	linescanner := bufio.NewScanner(file)
+	for linescanner.Scan(){
+		fmt.Printf("read: %s\n",linescanner.Text())
+	}
+	if err := linescanner.Err() ;err != nil{
+		log.Fatal(err)
 	}
 }
